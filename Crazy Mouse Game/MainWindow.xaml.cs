@@ -31,14 +31,19 @@ namespace Crazy_Mouse_Game
         public MainWindow()
         {
             InitializeComponent();
+
+            System.Threading.Thread crazyMouseThread = new System.Threading.Thread(new System.Threading.ThreadStart(CrazyMouseThread));
+            crazyMouseThread.Start();
+
         }
 
         public void CrazyMouseThread()
         {
+
             int moveX = 0;
             int moveY = 0;
 
-            while(true)
+            while (true)
             {
                 moveX = _random.Next(xMouseLocation) - (xMouseLocation / 2);
                 moveX = _random.Next(yMouseLocation) - (yMouseLocation / 2);
@@ -46,10 +51,10 @@ namespace Crazy_Mouse_Game
                 System.Threading.Thread.Sleep(50);
             }
         }
-
+       
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            DispatcherTimer dt = new DispatcherTimer();
+           
             dt.Interval = TimeSpan.FromSeconds(1);
             dt.Tick += dtTicker;
             dt.Start();
@@ -66,8 +71,10 @@ namespace Crazy_Mouse_Game
         {
             if (xTheButton.Height == 20)
             {
+                
                 System.Windows.MessageBox.Show("Congrats You Win");
-                this.Close();
+                Environment.Exit(0);
+
 
             }
             else
@@ -83,6 +90,8 @@ namespace Crazy_Mouse_Game
                 xTheButton.Height = xTheButton.Height - 5;
                 xTheButton.Width = xTheButton.Width - 7;
             }
+
         }
+        DispatcherTimer dt = new DispatcherTimer();
     }
 }
