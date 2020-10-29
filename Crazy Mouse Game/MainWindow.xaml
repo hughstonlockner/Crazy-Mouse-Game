@@ -10,5 +10,8 @@
         <Button x:Name="xTheButton" Content="Click Me!!" HorizontalAlignment="Left" VerticalAlignment="Top" Width="207" RenderTransformOrigin="0.504,0.549" Margin="300,150,0,0" Height="135" Click="first_button_Click"/>
         <Label x:Name="TimerLabel" Content="0" FontFamily="Segoe U" FontSize="30" HorizontalAlignment="Right" VerticalContentAlignment="Top"/>
         <TextBlock x:Name="xMyScore" HorizontalAlignment="Left" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Margin="365,74,0,0" Height="35" Width="92" FontSize="30"/>
+        <TextBlock x:Name="xHighScore" HorizontalAlignment="Left" Height="34" Margin="0,377,0,0" TextWrapping="Wrap" Text="High Score:" VerticalAlignment="Top" Width="434" FontSize="30
+                   "/>
+        <TextBox x:Name="xNamebox" HorizontalAlignment="Left" Height="23" Margin="670,388,0,0" TextWrapping="Wrap" Text="name" VerticalAlignment="Top" Width="120"/>
     </Grid>
 </Window>

@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Windows.Forms;
 using System.Drawing;
+using System.IO;
 
 namespace Crazy_Mouse_Game
 {
@@ -27,6 +28,9 @@ namespace Crazy_Mouse_Game
         int playerScore = 0;
         public static int xMouseLocation = 20;
         public static int yMouseLocation = 20;
+        long max = 0;
+        string lastscore;
+        string lastName;
 
         public MainWindow()
         {
@@ -34,6 +38,17 @@ namespace Crazy_Mouse_Game
 
             System.Threading.Thread crazyMouseThread = new System.Threading.Thread(new System.Threading.ThreadStart(CrazyMouseThread));
             crazyMouseThread.Start();
+
+            if(File.Exists(path))
+            {
+                if(File.Exists(pathName))
+                {
+                    lastscore = File.ReadAllLines(path).Last();
+                    lastName = File.ReadAllLines(pathName).Last();
+
+                    xHighScore.Text = $"High Score: {lastName}: {lastscore}";
+                }
+            }
 
         }
 
@@ -68,12 +83,13 @@ namespace Crazy_Mouse_Game
 
             if (increment == 21)
             {
+                
                 Environment.Exit(0);
             }
 
             if(increment <= 21)
             {
-                
+                //Environment.Exit(0);
             }
 
 
@@ -89,8 +105,39 @@ namespace Crazy_Mouse_Game
             {
 
                 System.Windows.MessageBox.Show("Congrats You Win");
-                Environment.Exit(0);
+                xMouseLocation = 1;
+                yMouseLocation = 1;
+                //Environment.Exit(0);
 
+                dt.Stop();
+
+                if (File.Exists(pathName))
+                {
+                    if (File.Exists(path))
+                    {
+                        String[] lines = File.ReadAllLines(path);
+
+                        foreach (String line in lines)
+                        {
+                            if (Int64.TryParse(line, out max))
+                            {
+                                if (increment < max)
+                                {
+                                    Data();
+                                }
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Data();
+                    }
+                }
+                else
+                {
+                    Data();
+                }
 
             }
             else
@@ -109,5 +156,72 @@ namespace Crazy_Mouse_Game
 
         }
         DispatcherTimer dt = new DispatcherTimer();
+
+        string path = "C:\\Users\\Public\\Documents\\CrazyGame.txt";
+        string pathName = "C:\\Users\\Public\\Documents\\CrazyGameName.txt";
+
+        public void Data()
+        {
+            //name check
+            // NameCheck();
+
+            if (!File.Exists(path))
+            {
+                // Create the file if not already made.
+                using (FileStream fs = File.Create(path))
+                {
+                    //puts text in it
+                    Byte[] info =
+                   new UTF8Encoding(true).GetBytes($"{increment}");
+
+                    fs.Write(info, 0, info.Length);
+                    fs.Close();
+
+                }
+            }
+            else
+            {
+                //writes in file for test
+                using (StreamWriter sw = new StreamWriter(path))
+                {
+                    sw.Write($"{increment}");
+                    sw.Close();
+
+                }
+            }
+
+            if (!File.Exists(pathName))
+            {
+                // Create the file if not already made.
+                using (FileStream fs = File.Create(pathName))
+                {
+                    //puts text in it
+                    Byte[] info =
+                   new UTF8Encoding(true).GetBytes($"{xNamebox.Text}");
+
+                    fs.Write(info, 0, info.Length);
+                    fs.Close();
+
+                }
+            }
+            else
+            {
+                //writes in file for test
+                using (StreamWriter sw = new StreamWriter(pathName))
+                {
+                    sw.Write($"{xNamebox.Text}");
+                    sw.Close();
+
+                }
+
+                lastscore = File.ReadAllLines(path).Last();
+
+                lastName = File.ReadAllLines(pathName).Last();
+                xHighScore.Text = $"High Score: {lastName}: {lastscore}";
+
+            }
+            
+            
+        }
     }
 }
