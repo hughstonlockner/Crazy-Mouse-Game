@@ -51,10 +51,10 @@ namespace Crazy_Mouse_Game
                 System.Threading.Thread.Sleep(50);
             }
         }
-       
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-           
+
             dt.Interval = TimeSpan.FromSeconds(1);
             dt.Tick += dtTicker;
             dt.Start();
@@ -65,13 +65,29 @@ namespace Crazy_Mouse_Game
             increment++;
 
             TimerLabel.Content = increment.ToString();
+
+            if (increment == 21)
+            {
+                Environment.Exit(0);
+            }
+
+            if(increment <= 21)
+            {
+                
+            }
+
+
         }
 
+
+        
+
+       
         private void first_button_Click(object sender, RoutedEventArgs e)
         {
             if (xTheButton.Height == 20)
             {
-                
+
                 System.Windows.MessageBox.Show("Congrats You Win");
                 Environment.Exit(0);
 
